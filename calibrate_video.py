@@ -7,8 +7,10 @@ import pickle
 import config
 import math
 
+# Path to the video
 videoFile = "vid/X_Lab_Calibrate/calibrate.mp4"
 
+# Reading the video
 cap = cv2.VideoCapture(videoFile)
 frameRate = cap.get(5) #frame rate
 x=1
@@ -24,8 +26,8 @@ while(cap.isOpened()):
 cap.release()
 print ("Done! Ready for the calibration")
 
-# The second argument are the two vertex of the mirror, used for computing right and left masks
-imagen = cv2.imread('images/X_Lab_Images/image36.jpg')
+# Reading the initial image for the image reader object
+imagen = cv2.imread('images/X_Lab_Images/image1.jpg')
 image_reader = ImageReader(config.BASE_PATH, imagen, use_mask=True, flip_left=True,
                            downsampling=config.DOWNSAMPLING)
  
@@ -35,12 +37,12 @@ obj_points = []
 valid_images = []
 first_plot = True
  
+# Stereo calibration process
 for i in range(image_reader.nb_images):
     print("Processing {} / {}".format(i + 1, image_reader.nb_images))
 
     original_img, left_img, right_img, filename = image_reader.read_image()
 
-    # find_chessboard_flags = cv2.CALIB_CB_ADAPTIVE_THRESH | cv2.CALIB_CB_NORMALIZE_IMAGE | cv2.CALIB_CB_FAST_CHECK
     find_chessboard_flags = cv2.CALIB_CB_ADAPTIVE_THRESH | cv2.CALIB_CB_NORMALIZE_IMAGE
 
     left_found, left_corners = cv2.findChessboardCorners(left_img, config.PATTERN_SIZE, flags=find_chessboard_flags)
@@ -83,7 +85,7 @@ for i in range(image_reader.nb_images):
         plt.tight_layout()
 
 img_shape = right_img.shape
-print("calibrating...")
+print("Calibrating...")
 
 obj_points1 = obj_points.copy()
 obj_points2 = obj_points.copy()

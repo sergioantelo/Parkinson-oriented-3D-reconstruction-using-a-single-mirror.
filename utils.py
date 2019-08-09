@@ -3,10 +3,9 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-#Para qué necesitas hacer el downsampling?
+# Downsampling if needed
 def downsample_image(image, reduce_factor):
     for i in range(0, reduce_factor):
-        # Check if image is color or grayscale
         if len(image.shape) > 2:
             row, col = image.shape[:2]
         else:
@@ -15,7 +14,7 @@ def downsample_image(image, reduce_factor):
         image = cv2.pyrDown(image, dstsize=(col // 2, row // 2))
     return image
 
-
+# Image Reader object
 class ImageReader(object):
     def __init__(self, path, image, use_mask=True, flip_left=True, downsampling=0):
         self.path = path
@@ -26,7 +25,8 @@ class ImageReader(object):
         self.files = os.listdir(path)
         self.current_it = 0
         self.nb_images = len(self.files)
-
+    
+    #Detecting the bottom mirror coords
     def __detect_border(self, image):
         areas = []
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -38,7 +38,6 @@ class ImageReader(object):
         mask = cv2.inRange(hsv, verde_bajos, verde_altos)
         
         plt.imshow(mask)
-        #plt.imshow(image)
         
         points_line = []
         
@@ -59,14 +58,13 @@ class ImageReader(object):
         for i in [0,1]:
            ellipse = cv2.fitEllipse(sorted_areas[i][1])
            points_line.append((ellipse[0][0],ellipse[0][1]))
-           # mark the detected ellipse in image
            cv2.ellipse(image, ellipse, (0, 0, 255), 10)
                     
            print("Center of ellipse is ({}, {}), area {}".format(ellipse[0][0], ellipse[0][1], fitted_area))
-           # cv2.circle(image, (int(ellipse[0][0]), int(ellipse[0][1])), 20, (0, 0, 255), -1)
         
         return points_line
-        
+    
+    # Reading an image
     def read_image(self):
         filename = self.files[self.current_it]
         original_img = cv2.imread(os.path.join(self.path, filename), 0)

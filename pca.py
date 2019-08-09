@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
 
+# PCA component reduction and function fitting
 x1,y1,z1 = pickle.load(open("static","rb"))
 #x2,y2,z2 = pickle.load(open("coords_y","rb"))
 #x3,y3,z3 = pickle.load(open("coords_z","rb"))

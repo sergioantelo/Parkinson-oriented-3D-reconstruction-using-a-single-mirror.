@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import pickle
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-
+# Plotting the 3D coords
 [x1,y1,z1] = (pickle.load(open("coords_horiz", "rb")))
 [x2,y2,z2] = (pickle.load(open("coords_transv", "rb")))
 [x3,y3,z3] = (pickle.load(open("static", "rb")))

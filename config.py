@@ -3,9 +3,10 @@ import os
 
 PATTERN_SIZE = (9, 6)
 
+# Own base path
 BASE_PATH = "images/X_Lab_Images"
 
-MIRROR_COORDS = [] # Two vertex of the mirror, used for computing right and left masks
+MIRROR_COORDS = [] 
 
 DOWNSAMPLING = 0
 
